@@ -124,7 +124,7 @@ app.post("/", function(req, res) {
 app.post("/delete", function(req, res) {
   const checkedItemID = (req.body.checkbox);
   const listTitle = req.body.listTitle
-  if (listTitle === "Today"){
+  if (listTitle === "Today") {
     Activity.deleteOne({
       _id: checkedItemID
     }, function(err) {
@@ -135,9 +135,17 @@ app.post("/delete", function(req, res) {
       }
       res.redirect("/")
     });
-  } else{
-    List.findOneAndUpdate({name:listTitle},{$pull:{items:{_id:checkedItemID}}},function(err, foundList){
-      if (!err){
+  } else {
+    List.findOneAndUpdate({
+      name: listTitle
+    }, {
+      $pull: {
+        items: {
+          _id: checkedItemID
+        }
+      }
+    }, function(err, foundList) {
+      if (!err) {
         res.redirect("/" + listTitle)
       }
     });
